@@ -6,7 +6,7 @@
 
 ```bash
 
-var Flickr = new require('flickr.simple.js'),
+var Flickr = require('flickr.simple.js'),
     flickr = new Flickr(key, secret);
 
 flickr.call_method('flickr.photos.search', {
