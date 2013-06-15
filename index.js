@@ -10,7 +10,7 @@ function Flickr(api_key, api_secret, api_host, debug) {
 	
 	this.api_key = api_key;
 	this.api_secret = api_secret;
-	this.debug = debug;
+	this._debug = debug || function(msg) {return false;};
 
 	if (!api_host) {
 		this.api_host = 'api.flickr.com';
