@@ -1,2 +1,28 @@
-{ "name" : "flickr.simple.js",
-  "main" : "./flickr.simple.js" }
+{
+  "name": "flickr.simple.js",
+  "description": "Simply, connect to Flickr",
+  "version": "2.0.0",
+  "author": "Redacted",
+  "contributors": [
+    {
+      "name": "Redacted"
+    },
+    {
+      "name": "Eric Gelinas",
+      "email": "eric@standardpixel.com"
+    }
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+	  "mocha" : "*"
+	  },
+  "keywords": [
+    "flickr",
+	"api"
+  ],
+  "repository": "git://github.com/standardpixel/flickr.simple.js",
+  "engines": {
+    "node": "*"
+  }
+}
