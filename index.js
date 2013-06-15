@@ -21,6 +21,8 @@ function Flickr(api_key, api_secret, api_host, debug) {
 	this.auth_host = 'www.flickr.com';
 
 	this._debug('initialized with api key' + this.api_key + ', secret ' + this.api_secret + ', talking to ' + this.api_host);
+
+	return this;
 }
 	
 

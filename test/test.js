@@ -1,7 +1,5 @@
 var assert = require("assert"),
     flickr = new require('../index.js')();
-	
-	console.log(flickr);
 
 describe('Array', function(){
   describe('#indexOf()', function(){
