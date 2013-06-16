@@ -17,6 +17,9 @@
   "devDependencies": {
 	  "mocha" : "*"
 	  },
+	  "scripts": {
+	    "test": "mocha test/*"
+	  },
   "keywords": [
     "flickr",
 	"api"
