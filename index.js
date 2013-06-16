@@ -1,4 +1,4 @@
-function Flickr(api_key, api_secret, api_host, debug) {
+function Flickr(api_key, api_secret, api_host, options) {
 	
 	if (!api_secret) {
 		api_secret = '';
@@ -8,9 +8,10 @@ function Flickr(api_key, api_secret, api_host, debug) {
 		api_host = '';
 	}
 	
+	this.options = options;
 	this.api_key = api_key;
 	this.api_secret = api_secret;
-	this._debug = debug || function(msg) {return false;};
+	this._debug = options.debug || function(msg) {return false;};
 
 	if (!api_host) {
 		this.api_host = 'api.flickr.com';
@@ -59,41 +60,46 @@ Flickr.prototype = {
 			path: urlParts.pathname + urlParts.search
 		};
 		
-		req = require('http').request(options, function (res) {
+		if(this.api_key !== 'fake_key') {
+			req = require('http').request(options, function (res) {
 
-			var body = '';
+				var body = '';
 
-			res.setEncoding("utf8");
+				res.setEncoding("utf8");
 
-			res.on('data', function (chunk) {
-				body += chunk;
-			});
+				res.on('data', function (chunk) {
+					body += chunk;
+				});
 
-			res.on('end', function() {
+				res.on('end', function() {
 
-				var res_obj = JSON.parse(body);
+					var res_obj = JSON.parse(body);
 			
-				that._debug('response content: ' + body);
-				that._debug('response object: ' + JSON.stringify(res_obj, true));
+					that._debug('response content: ' + body);
+					that._debug('response object: ' + JSON.stringify(res_obj, true));
 
-				if (!that.ok(res_obj)) {
-					that.on_error(res_obj);
-				} else {
-					if (typeof callback === 'function') {
-						callback(res_obj);
+					if (!that.ok(res_obj)) {
+						that.on_error(res_obj);
+					} else {
+						if (typeof callback === 'function') {
+							callback(res_obj);
+						}
 					}
-				}
 				
+				});
+
+
 			});
-
-
-		});
 		
-		req.on('error', function (e) {
-			that._debug('problem with request: ' + e.message);
-		});
+			req.on('error', function (e) {
+				that._debug('problem with request: ' + e.message);
+			});
 		
-		req.end();
+			req.end();
+		
+		} else {
+			callback(this.options.fixtures.call_method);
+		}
 
 	},
 	
@@ -193,6 +199,7 @@ Flickr.prototype = {
 	},
 	
 	on_error: function (res_obj) {
+		this._debug(res_obj);
 		return res_obj;
 	},
 	
