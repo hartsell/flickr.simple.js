@@ -1,7 +1,7 @@
 var assert   = require("assert"),
     fixtures = require('./fixtures.js'),
     Flickr   = require('../index.js'),
-	flickr   = new Flickr('6ded95f2901a334b25f2b058751c5012', '197a6680832e300b', null, {
+	flickr   = new Flickr('fake_key', 'fake_secret', null, {
 		fixtures : fixtures
 	});
 
