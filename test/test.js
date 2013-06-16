@@ -1,11 +1,12 @@
 var assert = require("assert"),
-    flickr = new require('../index.js')();
+    Flickr = require('../index.js'),
+	flickr = new Flickr('fake_key', 'fake_secret');
 
-describe('Array', function(){
-  describe('#indexOf()', function(){
-    it('should return -1 when the value is not present', function(){
-      assert.equal(-1, [1,2,3].indexOf(5));
-      assert.equal(-1, [1,2,3].indexOf(0));
-    });
+describe('the flickr.simple.js module', function(){
+  it('should be an object', function(){
+    assert.equal(typeof flickr, 'object', 'The constructed result is not an object');
+  });
+  it('has a call_method function', function(){
+    assert.equal(typeof flickr.call_method, 'function', 'The constructed result does not have a call_method function');
   });
 });
