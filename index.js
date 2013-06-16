@@ -29,7 +29,7 @@ Flickr.prototype = {
 
 	call_method: function (method, args, sign_call, callback) {
 		
-		var base_url, url, req, options, that = this;
+		var base_url, url, req, options, that = this, urlParts;
 		
 		if (!args) {
 			args = {};
