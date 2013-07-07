@@ -8,6 +8,7 @@ function Flickr(api_key, api_secret, api_host, options) {
 		api_host = '';
 	}
 	
+	options = options || {};
 	this.options = options;
 	this.api_key = api_key;
 	this.api_secret = api_secret;
