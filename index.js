@@ -1,4 +1,4 @@
-function Flickr(api_key, api_secret, api_host, debug) {
+function Flickr(api_key, api_secret, api_host, options) {
 	
 	if (!api_secret) {
 		api_secret = '';
@@ -8,9 +8,11 @@ function Flickr(api_key, api_secret, api_host, debug) {
 		api_host = '';
 	}
 	
+	options = options || {};
+	this.options = options;
 	this.api_key = api_key;
 	this.api_secret = api_secret;
-	this.debug = debug;
+	this._debug = options.debug || function(msg) {return false;};
 
 	if (!api_host) {
 		this.api_host = 'api.flickr.com';
@@ -22,7 +24,6 @@ function Flickr(api_key, api_secret, api_host, debug) {
 
 	this._debug('initialized with api key' + this.api_key + ', secret ' + this.api_secret + ', talking to ' + this.api_host);
 }
-	
 
 Flickr.prototype = {
 
@@ -30,7 +31,7 @@ Flickr.prototype = {
 
 	call_method: function (method, args, sign_call, callback) {
 		
-		var base_url, url, req, options, that = this;
+		var base_url, url, req, options, that = this, urlParts;
 		
 		if (!args) {
 			args = {};
@@ -60,41 +61,46 @@ Flickr.prototype = {
 			path: urlParts.pathname + urlParts.search
 		};
 		
-		req = require('http').request(options, function (res) {
+		if(this.api_key !== 'fake_key') {
+			req = require('http').request(options, function (res) {
 
-			var body = '';
+				var body = '';
 
-			res.setEncoding("utf8");
+				res.setEncoding("utf8");
 
-			res.on('data', function (chunk) {
-				body += chunk;
-			});
+				res.on('data', function (chunk) {
+					body += chunk;
+				});
 
-			res.on('end', function() {
+				res.on('end', function() {
 
-				var res_obj = JSON.parse(body);
+					var res_obj = JSON.parse(body);
 			
-				that._debug('response content: ' + body);
-				that._debug('response object: ' + JSON.stringify(res_obj, true));
+					that._debug('response content: ' + body);
+					that._debug('response object: ' + JSON.stringify(res_obj, true));
 
-				if (!that.ok(res_obj)) {
-					that.on_error(res_obj);
-				} else {
-					if (typeof callback === 'function') {
-						callback(res_obj);
+					if (!that.ok(res_obj)) {
+						that.on_error(res_obj);
+					} else {
+						if (typeof callback === 'function') {
+							callback(res_obj);
+						}
 					}
-				}
 				
+				});
+
+
 			});
-
-
-		});
 		
-		req.on('error', function (e) {
-			that._debug('problem with request: ' + e.message);
-		});
+			req.on('error', function (e) {
+				that._debug('problem with request: ' + e.message);
+			});
 		
-		req.end();
+			req.end();
+		
+		} else {
+			callback(this.options.fixtures.call_method);
+		}
 
 	},
 	
@@ -194,6 +200,7 @@ Flickr.prototype = {
 	},
 	
 	on_error: function (res_obj) {
+		this._debug(res_obj);
 		return res_obj;
 	},
 	

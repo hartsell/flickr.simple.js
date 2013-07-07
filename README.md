@@ -2,6 +2,8 @@
 
 [Kellan](https://github.com/kellan/)'s [flickr.simple.php](https://github.com/kellan/flickr.simple.php) rewritten in node.js
 
+[![Build Status](https://travis-ci.org/standardpixel/flickr.simple.js.png?branch=master)](https://travis-ci.org/standardpixel/flickr.simple.js)
+
 ## Usage
 
 ```bash
